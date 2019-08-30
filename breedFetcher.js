@@ -1,7 +1,7 @@
 const request = require('request');
 const breedName = process.argv.slice(2);
 
-const getBreed = (breedName, callback) => {
+const fetchBreedDescription = (breedName, callback) => {
   const address = `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`;
     
   request(address, (err, response, body) => {
@@ -14,18 +14,11 @@ const getBreed = (breedName, callback) => {
       callback('Breed does not exist');
       return;
     } else {
-      const description = data[0].description;
+      const description = data[0].description.trim();
       callback(null, description);
     }
   });
-
-};
-const callback = function(err, description) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(description);
-  }
 };
 
-getBreed(breedName, callback);
+
+module.exports.fetchBreedDescription = fetchBreedDescription;
